@@ -30,16 +30,14 @@ const SignIn = () => {
   const signIn = async (e) => {
     e.preventDefault();
 
-    // returns 404... :-(
     try {
-      // axios.post() ... first parameter: URL, second: HTTP request body, third: config (設定)
-      const data = await axios.post(
+      // axios.put() ... first parameter: URL, second: HTTP request body, third: config (設定)
+      const res = await axios.put(
         "http://localhost:5000/signin",
-
         loginUserInfo,
-
         {
           headers: {
+            // syntax: Authorization: <type> <credentials>
             Authorization:
               "Basic " +
               base64.encode(
@@ -47,10 +45,20 @@ const SignIn = () => {
               ),
             "Content-Type": "application/json",
           },
+          // credentials: "same-origin" : ユーザーのログイン情報をバックエンドに送信したい時につける
+          // （バックエンドとフロントエンドのドメインが同じ時のみ）
           credentials: "same-origin",
         }
       );
-      console.log(data);
+      console.log(
+        base64.encode(loginUserInfo.username + ":" + loginUserInfo.password)
+      );
+      if (res.statusText !== "OK") {
+        throw res.statusText;
+      } else {
+        console.log(res.data);
+        return res.data;
+      }
     } catch (err) {
       console.log(err);
     }
