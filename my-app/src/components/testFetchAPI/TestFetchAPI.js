@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 const TestFetchAPI = () => {
   const fetchAPI = async () => {
     try {
-      const res = await fetch("http://localhost:5000");
+      const res = await fetch("http://localhost:5000/test-fetch-api");
 
       console.log(res);
     } catch (err) {
